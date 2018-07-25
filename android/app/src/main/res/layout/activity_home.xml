@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/inkalogo" />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="SELAMAT DATANG DI SISTEM INFORMASI SEKRETARIAT"
+    />
+    <Button
+        android:layout_marginTop="34dp"
+        android:id="@+id/btSrInternal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#059f00"
+        android:text="Surat Internal"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/btSrExternal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#059f00"
+        android:text="Surat External"
+        android:textColor="#fff" />
+
+    <Button
+
+        android:id="@+id/btSrMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#059f00"
+        android:text="Surat Memo"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/btlogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
+</LinearLayout>

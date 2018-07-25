@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TASekretaris</string>
+    <string name="title_activity_detail_surat">DetailSuratActivity</string>
+    <string name="title_activity_detail_surat_external">DetailSuratExternalActivity</string>
+</resources>
