@@ -1,6 +1,8 @@
 <?php
 include 'konek.php';
-$id 	= $_POST['nip'];
+
+$id 			= $_POST['nip'];
+$tdk 	= $_POST['tipe_dok_id'];
 // $sql = mysqli_query($con,"SELECT orders.*,
 // 	markets.name as namapasar
 // FROM
@@ -38,7 +40,7 @@ FROM
 t_dokumens
 INNER JOIN m_tipe_dokumens ON t_dokumens.tipe_dok_id = m_tipe_dokumens.id
 INNER JOIN users ON t_dokumens.id_user = users.id
-WHERE users.nip='$id'") or die(mysqli_errno());
+WHERE users.nip='$id' && t_dokumens.tipe_dok_id ='$tdk'") or die(mysqli_errno());
 $response = array();
 if(mysqli_num_rows($sql) > 0)
 {
@@ -47,7 +49,8 @@ if(mysqli_num_rows($sql) > 0)
 		
 		$user=array();
 		$user["id"]						= $row["id"];
-		$user["tipe_dok_id"]			= $row["tipe_dok_id"];
+		$user["tipe_dok_id"]	
+				= $row["tipe_dok_id"];
 		$user["tgl_masuk"]				= $row["tgl_masuk"];
 		$user["nomor_dokumen"]			= $row["nomor_dokumen"];
 		$user["nomor_referensi"]		= $row["nama_dokumen"];
