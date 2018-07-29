@@ -46,7 +46,7 @@ t_dokumens.id_user,
 t_dokumens.created_at,
 t_dokumens.updated_at,
 t_dokumens.deleted_at) VALUES 
-		('$row[0]','$tipe_dok_id','$tgl_masuk','$nomor_dokumen','','$nama_dokumen','$perihal','$pengirim','$tgl_dok_referensi','$penerima','$tgl_keluar','$tgl_kembali','','','$id_user','$created_at','','')");
+		('$row[0]','$tipe_dok_id','$tgl_masuk','$nomor_dokumen','','$nama_dokumen','$perihal','$pengirim','$tgl_dok_referensi','$penerima','$tgl_keluar','$tgl_kembali','1','1','$id_user','$created_at','','')");
 
 // unlock tables;
 	if($sql)

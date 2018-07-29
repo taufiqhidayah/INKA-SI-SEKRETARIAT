@@ -9,11 +9,11 @@ if(isset($_POST["id"]))
 	$nama_dokumen =$_POST["nama_dokumen"];
 	$perihal =$_POST["perihal"];
 	$penerima =$_POST["penerima"];
-	$id= $row[0]++;
+	$id= $_POST['id'];
 	$tipe_dok_id =$_POST["tipe_dok_id"];
 	$id_user =$_POST["id_user"];
 
-	$sql = mysqli_query($con,"UPDATE t_dokumens SET nomor_dokumen='$nomor_dokumen',nama_dokumen='$nama_dokumen',perihal='$perihal',pengirim='$pengirim' WHERE id='$id'");
+	$sql = mysqli_query($con,"UPDATE t_dokumens SET nomor_dokumen='$nomor_dokumen',nama_dokumen='$nama_dokumen',perihal='$perihal',pengirim='$pengirim', penerima ='$penerima' WHERE id='$id'");
 
 	if($sql)
 	{

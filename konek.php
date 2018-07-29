@@ -1,6 +1,6 @@
 
 <?php
-$con = mysqli_connect("localhost","root","","sekretariat");
+$con = mysqli_connect("localhost","root","","sekapi");
 // $con = mysqli_connect("localhost","adapasar_adapasar","adapasar_admin","adapasar17*")
 
 // $server ="localhost";
