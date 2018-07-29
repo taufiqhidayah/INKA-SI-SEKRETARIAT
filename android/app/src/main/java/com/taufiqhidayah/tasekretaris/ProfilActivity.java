@@ -31,6 +31,7 @@ SessionManager sessionManager;
         setSupportActionBar(toolbar);
         butterKnife.bind(this);
        sessionManager = new SessionManager(this);
+       tvNam.setText(sessionManager.getNama());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
