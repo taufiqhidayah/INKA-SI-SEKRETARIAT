@@ -289,7 +289,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
-                        param.put("nomor_dokumen", edNo.getText().toString());
+                        param.put("nomor_dokumen",edNo.getText().toString()+"/SMI/"+sesi.getNama()+"/2018");
                         param.put("pengirim", edTujuan1.getText().toString());
                         param.put("pengirim", edTujuan2.getText().toString());
                         param.put("pengirim", edTujuan3.getText().toString());
@@ -299,7 +299,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                         param.put("perihal", edJenDok.getText().toString());
 //                param.put("deposit_jumlah",edTgl.getText().toString());
                         param.put("id_user", sesi.getIdUser());
-                        param.put("tipe_dok_id", "2");
+                        param.put("tipe_dok_id", "1");
 //                param.put("konfirmasi_nama", konfirmasinama.getText().toString());
 //                param.put("kon_bank", textspinner.getText().toString());
 //                param.put("kon_rekening", konfirmasirekening.getText().toString());

@@ -231,7 +231,7 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              AddData();
+                AddData();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -302,7 +302,7 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
 
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
-                        param.put("nomor_dokumen", edNoUrut.getText().toString());
+                        param.put("nomor_dokumen", edNoUrut.getText().toString()+ "/SME/"+sesi.getNama()+"2018");
                         param.put("penerima", edUnitPengirim.getText().toString());
                         param.put("perihal", edJenisDok.getText().toString());
                         param.put("nama_dokumen", edDok.getText().toString());

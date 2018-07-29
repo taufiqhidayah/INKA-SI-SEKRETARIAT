@@ -210,7 +210,7 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 HashMap<String, String> param = new HashMap<>();
-                               param.put("nomor_dokumen", edNoUrut.getText().toString());
+                                param.put("nomor_dokumen", edNoUrut.getText().toString()+ "/SME/"+sessionManager.getNama()+"2018");
                                 param.put("penerima", edNamaPengirim.getText().toString());
                                 param.put("nama_dokumen", edJenisDok.getText().toString());
                                 param.put("perihal", edPerihal.getText().toString());
@@ -242,7 +242,7 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               addData();
+                addData();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
