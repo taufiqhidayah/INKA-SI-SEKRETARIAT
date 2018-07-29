@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     EditText edname, edpassword;
     Button login;
     ProgressBar loading;
-    static String URL_LOGIN = "http://192.168.1.8/apisek/login.php";
+    static String URL_LOGIN = Konstant.URL +"apisek/login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         sessionManager.cerateLoginSession(name);
 //                                sessionManager.setNama(json.getString("nip"));
                         sessionManager.setNama(name);
+                        sessionManager.setEmail(json.getString("name"));
                         sessionManager.setIduser(json.getString("id"));
                         Toast.makeText(MainActivity.this, "Register Success!", Toast.LENGTH_SHORT).show();
                     }

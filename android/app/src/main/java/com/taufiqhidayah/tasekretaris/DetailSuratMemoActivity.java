@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,30 +35,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.OnClick;
-
-public class DetailSuratInternalActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static ArrayList<Data> data;
     SessionManager sesi;
     Data user;
     ListView lsOrder;
-    EditText edNo, edTgl, edUnit, edDok, edJenDok, edTujuan1, edTujuan2, edTujuan3, edTujuan4;
+    EditText edNoUrut, edTglMasuk,edUnitPengirim,edNomerMemo,edDok,edJenisDok,edT1,edT2,edT3,edT4;
     Button btSave,btDel;
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_surat);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        setContentView(R.layout.activity_detail_surat_memo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        lsOrder = (ListView) findViewById(R.id.lsView);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        lsOrder = (ListView) findViewById(R.id.lsMemo);
         sesi = new SessionManager(this);
         data = new ArrayList<>();
         user = new Data();
+        getData();
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        getData();
         if (!sesi.getIdUser().equals("2") && !sesi.getIdUser().equals("3") && !sesi.getIdUser().equals("4") && !sesi.getIdUser().equals("5") )
         {
 //        if (sesi.getNama()!= "sekt_dirut" && sesi.getNama()!="sekt_dirkeu" && sesi.getNama()!="sekt_dirkomtek" & sesi.getNama()!= "sekt_dirprod"){
@@ -69,35 +69,108 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
         lsOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Dialog dialog = new Dialog(DetailSuratInternalActivity.this);
-                dialog.setContentView(R.layout.insert_data);
 
-                edNo = (EditText) dialog.findViewById(R.id.NomorUrutDokumen);
-                edUnit = (EditText) dialog.findViewById(R.id.UnitPengirim);
-                edTgl = (EditText) dialog.findViewById(R.id.TanggalMasukDokumen);
-                edDok = (EditText) dialog.findViewById(R.id.Dokumen);
-                edJenDok = (EditText) dialog.findViewById(R.id.JenisDokumen);
-                edTujuan1 = (EditText) dialog.findViewById(R.id.TujuanPertama);
-                edTujuan2 = (EditText) dialog.findViewById(R.id.TujuanKedua);
-                edTujuan3 = (EditText) dialog.findViewById(R.id.TujuanKetiga);
-                edTujuan4 = (EditText) dialog.findViewById(R.id.TujuanKeempat);
-                btSave = (Button) dialog.findViewById(R.id.Simpan);
-                btDel =(Button)dialog.findViewById(R.id.btdelete);
+                final Dialog dialog = new Dialog(DetailSuratMemoActivity.this);
+                dialog.setContentView(R.layout.insert_memo);
+
+
+
+                edNoUrut = (EditText) dialog.findViewById(R.id.memNomorUrutDokumen);
+                edTglMasuk = (EditText) dialog.findViewById(R.id.memTanggalMasukDokumen);
+                edUnitPengirim = (EditText) dialog.findViewById(R.id.memUnitPengirim);
+                edNomerMemo = (EditText) dialog.findViewById(R.id.memNomorMemo);
+                edDok = (EditText) dialog.findViewById(R.id.memDokumen);
+                edJenisDok = (EditText) dialog.findViewById(R.id.memJenisDokumen);
+                edT1 = (EditText) dialog.findViewById(R.id.memTujuanPertama);
+                edT2 = (EditText) dialog.findViewById(R.id.memTujuanKedua);
+                edT3 = (EditText) dialog.findViewById(R.id.memTujuanKetiga);
+                edT4 = (EditText) dialog.findViewById(R.id.memTujuanKeempat);
+                btSave = (Button) dialog.findViewById(R.id.memSimpan);
+                btDel =(Button)dialog.findViewById(R.id.memDel);
                 final Data map = data.get(position);
-                Toast.makeText(DetailSuratInternalActivity.this, map.getId(), Toast.LENGTH_SHORT).show();
                 edDok.setText(map.getNama_dok());
-                edNo.setText(map.getNo_dok());
-                edUnit.setText(map.getPerihal());
-                edTgl.setText(map.getTgl_masuk());
-                edJenDok.setText(map.getPerihal());
-                edTujuan1.setText(map.getPengirim());
+                edNoUrut.setText(map.getNo_dok());
+                edTglMasuk.setText(map.tgl_masuk);
+                edNomerMemo.setText(map.getNo_reff());
+                edUnitPengirim.setText(map.penerima);
+                edT1.setText(map.pengirim);
+
+                btSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String Url =  Konstant.URL +"apisek/updateData.php";
+                        final ProgressDialog progressDialog = new ProgressDialog(DetailSuratMemoActivity.this);
+                        progressDialog.setMessage("loading..");
+                        progressDialog.show();
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("respon", response);
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    String hasil = json.getString("success");
+                                    if (hasil.equalsIgnoreCase("true")) {
+                                        AlertDialog.Builder la = new AlertDialog.Builder(DetailSuratMemoActivity.this);
+                                        la.setTitle("Terima Kasih");
+                                        la.setMessage("");
+                                        la.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        startActivity(new Intent(DetailSuratMemoActivity.this, DetailSuratMemoActivity.class));
+                                                    }
+                                                }
+                                        );
+                                        la.show();
+
+                                        progressDialog.dismiss();
+                                    }
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(DetailSuratMemoActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                HashMap<String, String> param = new HashMap<>();
+                                param.put("nomor_dokumen", edNoUrut.getText().toString());
+                                param.put("penerima", edUnitPengirim.getText().toString());
+                                param.put("perihal", edJenisDok.getText().toString());
+                                param.put("nama_dokumen", edDok.getText().toString());
+                                param.put("penerima", edDok.getText().toString());
+                                param.put("perihal", edNomerMemo.getText().toString());
+                                param.put("pengirim", edT1.getText().toString());
+                                param.put("pengirim", edT2.getText().toString());
+                                param.put("pengirim", edT3.getText().toString());
+                                param.put("pengirim", edT4.getText().toString());
+                                param.put("id_user", sesi.getIdUser());
+                                param.put("tipe_dok_id", "3");
+//                        param.put("deposit_jumlah",edTgl.getText().toString());
+                                return param;
+
+                            }
+                        };
+                        RequestQueue queue = Volley.newRequestQueue(DetailSuratMemoActivity.this);
+                        queue.add(stringRequest);
+
+                    }
+                });
+
 
                 btDel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        String Url = Konstant.URL +"apisek/deleteData.php";
-                        final ProgressDialog progressDialog = new ProgressDialog(DetailSuratInternalActivity.this);
+                        String Url =  Konstant.URL +"apisek/deleteData.php";
+                        final ProgressDialog progressDialog = new ProgressDialog(DetailSuratMemoActivity.this);
                         progressDialog.setMessage("loading..");
                         progressDialog.show();
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
@@ -109,13 +182,13 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                                     JSONObject json = new JSONObject(response);
                                     String hasil = json.getString("success");
                                     if (hasil.equalsIgnoreCase("true")) {
-                                        AlertDialog.Builder la = new AlertDialog.Builder(DetailSuratInternalActivity.this);
+                                        AlertDialog.Builder la = new AlertDialog.Builder(DetailSuratMemoActivity.this);
                                         la.setTitle("Terima Kasih");
                                         la.setMessage("");
                                         la.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                                        startActivity(new Intent(DetailSuratInternalActivity.this, DetailSuratInternalActivity.class));
+                                                        startActivity(new Intent(DetailSuratMemoActivity.this, DetailSuratMemoActivity.class));
                                                     }
                                                 }
                                         );
@@ -133,7 +206,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(DetailSuratInternalActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailSuratMemoActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
                             }
                         }) {
                             @Override
@@ -145,75 +218,11 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
 
                             }
                         };
-                        RequestQueue queue = Volley.newRequestQueue(DetailSuratInternalActivity.this);
+                        RequestQueue queue = Volley.newRequestQueue(DetailSuratMemoActivity.this);
                         queue.add(stringRequest);
 
                     }
                 });
-                btSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String Url =  Konstant.URL +"apisek/updateData.php";
-                        final ProgressDialog progressDialog = new ProgressDialog(DetailSuratInternalActivity.this);
-                        progressDialog.setMessage("loading..");
-                        progressDialog.show();
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
-
-                            @Override
-                            public void onResponse(String response) {
-                                Log.d("respon", response);
-                                try {
-                                    JSONObject json = new JSONObject(response);
-                                    String hasil = json.getString("success");
-                                    if (hasil.equalsIgnoreCase("true")) {
-                                        AlertDialog.Builder la = new AlertDialog.Builder(DetailSuratInternalActivity.this);
-                                        la.setTitle("Terima Kasih");
-                                        la.setMessage("");
-                                        la.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        startActivity(new Intent(DetailSuratInternalActivity.this, DetailSuratInternalActivity.class));
-                                                    }
-                                                }
-                                        );
-                                        la.show();
-
-                                        progressDialog.dismiss();
-                                    }
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(DetailSuratInternalActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                HashMap<String, String> param = new HashMap<>();
-                                param.put("nomor_dokumen", edNo.getText().toString());
-                                param.put("nama_dokumen", edDok.getText().toString());
-                                param.put("perihal", edJenDok.getText().toString());
-                                param.put("pengirim", edTujuan1.getText().toString());
-                                param.put("penerima", edUnit.getText().toString());
-                                param.put("id",map.getId());
-//                        param.put("deposit_jumlah",edTgl.getText().toString());
-                                return param;
-
-                            }
-                        };
-                        RequestQueue queue = Volley.newRequestQueue(DetailSuratInternalActivity.this);
-                        queue.add(stringRequest);
-
-                    }
-                });
-
-
 
                 dialog.show();
             }
@@ -222,32 +231,35 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tampilDialog();
+              AddData();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void tampilDialog() {
+    private void AddData() {
+
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.insert_data);
+        dialog.setContentView(R.layout.insert_memo);
 
-        edNo = (EditText) dialog.findViewById(R.id.NomorUrutDokumen);
-        edUnit = (EditText) dialog.findViewById(R.id.UnitPengirim);
-        edTgl = (EditText) dialog.findViewById(R.id.TanggalMasukDokumen);
-        edDok = (EditText) dialog.findViewById(R.id.Dokumen);
-        edJenDok = (EditText) dialog.findViewById(R.id.JenisDokumen);
-        edTujuan1 = (EditText) dialog.findViewById(R.id.TujuanPertama);
-        edTujuan2 = (EditText) dialog.findViewById(R.id.TujuanKedua);
-        edTujuan3 = (EditText) dialog.findViewById(R.id.TujuanKetiga);
-        edTujuan4 = (EditText) dialog.findViewById(R.id.TujuanKeempat);
-        btSave = (Button) dialog.findViewById(R.id.Simpan);
 
+
+        edNoUrut = (EditText) dialog.findViewById(R.id.memNomorUrutDokumen);
+        edTglMasuk = (EditText) dialog.findViewById(R.id.memTanggalMasukDokumen);
+        edUnitPengirim = (EditText) dialog.findViewById(R.id.memUnitPengirim);
+        edNomerMemo = (EditText) dialog.findViewById(R.id.memNomorMemo);
+        edDok = (EditText) dialog.findViewById(R.id.memDokumen);
+        edJenisDok = (EditText) dialog.findViewById(R.id.memJenisDokumen);
+        edT1 = (EditText) dialog.findViewById(R.id.memTujuanPertama);
+        edT2 = (EditText) dialog.findViewById(R.id.memTujuanKedua);
+        edT3 = (EditText) dialog.findViewById(R.id.memTujuanKetiga);
+        edT4 = (EditText) dialog.findViewById(R.id.memTujuanKeempat);
+        btSave = (Button) dialog.findViewById(R.id.memSimpan);
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Url =  Konstant.URL +"apisek/insertData.php";
-                final ProgressDialog progressDialog = new ProgressDialog(DetailSuratInternalActivity.this);
+                String Url =  Konstant.URL +"apisek/insertMemo.php";
+                final ProgressDialog progressDialog = new ProgressDialog(DetailSuratMemoActivity.this);
                 progressDialog.setMessage("loading..");
                 progressDialog.show();
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
@@ -259,13 +271,13 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                             JSONObject json = new JSONObject(response);
                             String hasil = json.getString("success");
                             if (hasil.equalsIgnoreCase("true")) {
-                                AlertDialog.Builder la = new AlertDialog.Builder(DetailSuratInternalActivity.this);
+                                AlertDialog.Builder la = new AlertDialog.Builder(DetailSuratMemoActivity.this);
                                 la.setTitle("Terima Kasih");
                                 la.setMessage("");
                                 la.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                startActivity(new Intent(DetailSuratInternalActivity.this, DetailSuratInternalActivity.class));
+                                                startActivity(new Intent(DetailSuratMemoActivity.this, DetailSuratMemoActivity.class));
                                             }
                                         }
                                 );
@@ -283,23 +295,25 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(DetailSuratInternalActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailSuratMemoActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
                     }
                 }) {
                     @Override
+
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
-                        param.put("nomor_dokumen", edNo.getText().toString());
-                        param.put("pengirim", edTujuan1.getText().toString());
-                        param.put("pengirim", edTujuan2.getText().toString());
-                        param.put("pengirim", edTujuan3.getText().toString());
-                        param.put("pengirim", edTujuan4.getText().toString());
+                        param.put("nomor_dokumen", edNoUrut.getText().toString());
+                        param.put("penerima", edUnitPengirim.getText().toString());
+                        param.put("perihal", edJenisDok.getText().toString());
                         param.put("nama_dokumen", edDok.getText().toString());
-                        param.put("penerima", edUnit.getText().toString());
-                        param.put("perihal", edJenDok.getText().toString());
-//                param.put("deposit_jumlah",edTgl.getText().toString());
+                        param.put("penerima", edDok.getText().toString());
+                        param.put("perihal", edNomerMemo.getText().toString());
+                        param.put("pengirim", edT1.getText().toString());
+                        param.put("pengirim", edT2.getText().toString());
+                        param.put("pengirim", edT3.getText().toString());
+                        param.put("pengirim", edT4.getText().toString());
                         param.put("id_user", sesi.getIdUser());
-                        param.put("tipe_dok_id", "2");
+                        param.put("tipe_dok_id", "3");
 //                param.put("konfirmasi_nama", konfirmasinama.getText().toString());
 //                param.put("kon_bank", textspinner.getText().toString());
 //                param.put("kon_rekening", konfirmasirekening.getText().toString());
@@ -308,18 +322,13 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
 
                     }
                 };
-                RequestQueue queue = Volley.newRequestQueue(DetailSuratInternalActivity.this);
+                RequestQueue queue = Volley.newRequestQueue(DetailSuratMemoActivity.this);
                 queue.add(stringRequest);
 
 
             }
         });
         dialog.show();
-    }
-
-    private void addData() {
-
-
     }
 
     private void getData() {
@@ -352,7 +361,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                         u.setPerihal(json.getString("perihal"));
 
                         data.add(u);
-                        CustemAdapter adapter = new CustemAdapter(DetailSuratInternalActivity.this, data);
+                        CustemAdapterMemo adapter = new CustemAdapterMemo(DetailSuratMemoActivity.this, data);
                         lsOrder.setAdapter(adapter);
                         mSwipeRefreshLayout.setRefreshing(false);
 //                        progressDialog.dismiss();
@@ -372,7 +381,9 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("nip", sesi.getNama());
-                params.put("tipe_dok_id","1");
+                params.put("tipe_dok_id","3");
+
+
                 //   params.put("idorder", booking.getIdbook());
                 //  params.put("f_type",String.valueOf(type));
 
@@ -381,10 +392,6 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }
-
-    @OnClick(R.id.Simpan)
-    public void onViewClicked() {
     }
 
     @Override

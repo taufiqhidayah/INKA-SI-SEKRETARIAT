@@ -13,7 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +34,24 @@
         <activity
             android:name=".DetailSuratExternalActivity"
             android:label="@string/title_activity_detail_surat_external"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taufiqhidayah.tasekretaris.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".DetailSuratMemoActivity"
+            android:label="@string/title_activity_detail_surat_memo"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taufiqhidayah.tasekretaris.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ProfilActivity"
+            android:label="@string/title_activity_profil"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/memNomorUrutDokumen"
+            android:layout_width="324dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Nomor Urut Dokumen"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="27dp" />
+
+        <EditText
+            android:id="@+id/memTanggalMasukDokumen"
+            android:layout_width="321dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Tanggal Masuk Dokumen"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="73dp" />
+
+        <EditText
+            android:id="@+id/memUnitPengirim"
+            android:layout_width="324dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Unit Pengirim"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="119dp" />
+
+        <EditText
+            android:id="@+id/memNomorMemo"
+            android:layout_width="321dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Nomor Memo"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="165dp" />
+
+        <EditText
+            android:id="@+id/memDokumen"
+            android:layout_width="321dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Dokumen"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="218dp" />
+
+        <EditText
+            android:id="@+id/memJenisDokumen"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Jenis Dokumen"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="272dp" />
+
+        <EditText
+            android:id="@+id/memTujuanPertama"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Tujuan Pertama"
+            tools:layout_editor_absoluteX="504dp"
+            tools:layout_editor_absoluteY="492dp" />
+
+        <EditText
+            android:id="@+id/memTujuanKedua"
+            android:layout_width="321dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Tujuan Kedua"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="318dp" />
+
+        <EditText
+            android:id="@+id/memTujuanKetiga"
+            android:layout_width="321dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Tujuan Ketiga"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="364dp" />
+
+        <EditText
+            android:id="@+id/memTujuanKeempat"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Tujuan Keempat"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="410dp" />
+
+
+        <Button
+            android:id="@+id/memSimpan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simpan"
+            tools:layout_editor_absoluteX="279dp"
+            tools:layout_editor_absoluteY="502dp" />
+
+        <Button
+            android:id="@+id/memDel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hapus"
+            tools:layout_editor_absoluteX="279dp"
+            tools:layout_editor_absoluteY="502dp" />
+    </LinearLayout>
+</ScrollView>
