@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Nomor Urut Dokumen"
+            android:hint="Nomor Urut Dokumen"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="27dp" />
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Tanggal Masuk Dokumen"
+            android:hint="Tanggal Masuk Dokumen"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="73dp" />
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Unit Pengirim"
+            android:hint="Unit Pengirim"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="119dp" />
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Nomor Memo"
+            android:hint="Nomor Memo"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="165dp" />
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Dokumen"
+            android:hint="Dokumen"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="218dp" />
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Jenis Dokumen"
+            android:hint="Jenis Dokumen"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="272dp" />
 
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Tujuan Pertama"
+            android:hint="Tujuan Pertama"
             tools:layout_editor_absoluteX="504dp"
             tools:layout_editor_absoluteY="492dp" />
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Tujuan Kedua"
+            android:hint="Tujuan Kedua"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="318dp" />
 
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Tujuan Ketiga"
+            android:hint="Tujuan Ketiga"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="364dp" />
 
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Tujuan Keempat"
+            android:hint="Tujuan Keempat"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="410dp" />
 
@@ -116,7 +116,7 @@
             android:id="@+id/memSimpan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simpan"
+            android:hint="Simpan"
             tools:layout_editor_absoluteX="279dp"
             tools:layout_editor_absoluteY="502dp" />
 
@@ -124,7 +124,7 @@
             android:id="@+id/memDel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hapus"
+            android:hint="Hapus"
             tools:layout_editor_absoluteX="279dp"
             tools:layout_editor_absoluteY="502dp" />
     </LinearLayout>

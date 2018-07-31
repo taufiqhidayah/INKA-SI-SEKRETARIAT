@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,16 +96,32 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
                 btDel =(Button)dialog.findViewById(R.id.exdelete);
 
 
+//                param.put("id_user",sessionManager.getIdUser());
+////                                param.put("nomor_dokumen",n+"/SMI/"+sessionManager.getNama()+"/2018");
+//                param.put("perihal", edPerihal.toString());
+//                param.put("pengirim", edNamaPengirim.getText().toString());
+//                param.put("urutan_ke", edNoUrut.getText().toString());
+//                param.put("dest_direksi_id",EdT1.getText().toString());
+//                param.put("tipe_dok_id", "2");
+//
+
                 final Data map = data.get(position);
                 Toast.makeText(DetailSuratExternalActivity.this, map.getId(), Toast.LENGTH_SHORT).show();
-                edNoUrut.setText(map.getNo_dok());
+//                edNoUrut.setText(map.getNo_dok());
+//                edTglMasuk.setText(map.getTgl_masuk());
+//                edNamaPengirim.setText(map.getPengirim());
+//                edTglDoc.setText(map.getTgl_dok_reff());
+//                edNoUrut.setText(map.getNo_dok());
+//                edJenisDok.setText(map.getId());
+//                edTglDoc.setText(map.getPenerima());
+//
                 edTglMasuk.setText(map.getTgl_masuk());
-                edNamaPengirim.setText(map.getPengirim());
-                edTglDoc.setText(map.getTgl_dok_reff());
+                edTglDoc.setText(map.getTgl_masuk());
+                edNoSurat.setText(map.getNo_dok());
+                EdT1.setText(map.getDireksi());
                 edNoUrut.setText(map.getNo_dok());
-                edJenisDok.setText(map.getId());
-                edTglDoc.setText(map.getPenerima());
-
+                edNamaPengirim.setText(map.getPengirim());
+                edPerihal.setText(map.getPerihal());
 
                 btDel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -210,17 +227,12 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 HashMap<String, String> param = new HashMap<>();
-                                param.put("nomor_dokumen", edNoUrut.getText().toString()+ "/SME/"+sessionManager.getNama()+"2018");
-                                param.put("penerima", edNamaPengirim.getText().toString());
-                                param.put("nama_dokumen", edJenisDok.getText().toString());
-                                param.put("perihal", edPerihal.getText().toString());
-                                param.put("pengirim", edT2.getText().toString());
-                                param.put("pengirim", edT3.getText().toString());
-                                param.put("pengirim", edT4.getText().toString());
-                                param.put("pengirim", edT4.getText().toString());
-                                param.put("pengirim", EdT1.getText().toString());
-
-                                param.put("id_user", sessionManager.getIdUser());
+                                param.put("id_user",sessionManager.getIdUser());
+                                param.put("nomor_dokumen",map.getNo_dok());
+                                param.put("perihal", edPerihal.toString());
+                                param.put("pengirim", edNamaPengirim.getText().toString());
+                                param.put("urutan_ke", edNoUrut.getText().toString());
+                                param.put("dest_direksi_id",EdT1.getText().toString());
                                 param.put("tipe_dok_id", "2");
                                 param.put("id",map.getId());
                                 return param;
@@ -307,24 +319,21 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
                         Toast.makeText(DetailSuratExternalActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
                     }
                 }) {
+                    Random rand = new Random();
+
+                    int  n = rand.nextInt(50) + 1;
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
 
 
 //                        EditText edNoUrut, edTglMasuk,edNamaPengirim,edTglDoc,edNoSurat,edPerihal,edJenisDok,EdT1,edT2,edT3,edT4;
-                        param.put("nomor_dokumen", edNoUrut.getText().toString());
-                        param.put("penerima", edNamaPengirim.getText().toString());
-//                param.put("deposit_jumlah",edTgl.getText().toString());
-                        param.put("nama_dokumen", edJenisDok.getText().toString());
-                        param.put("perihal", edPerihal.getText().toString());
-                        param.put("pengirim", edT2.getText().toString());
-                        param.put("pengirim", edT3.getText().toString());
-                        param.put("pengirim", edT4.getText().toString());
-                        param.put("pengirim", edT4.getText().toString());
-                        param.put("pengirim", EdT1.getText().toString());
-
-                        param.put("id_user", sessionManager.getIdUser());
+                        param.put("id_user",sessionManager.getIdUser());
+                        param.put("nomor_dokumen",n+"/SME/"+sessionManager.getNama()+"/2018");
+                        param.put("perihal", edPerihal.toString());
+                        param.put("pengirim", edNamaPengirim.getText().toString());
+                        param.put("urutan_ke", edNoUrut.getText().toString());
+                        param.put("dest_direksi_id",EdT1.getText().toString());
                         param.put("tipe_dok_id", "2");
 //                param.put("konfirmasi_nama", konfirmasinama.getText().toString());
 //                param.put("kon_bank", textspinner.getText().toString());
@@ -362,13 +371,13 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
 
                         // proses memasukkan masing2 field ke setter getter model
                         Data u = new Data();
+                        u.setUrutan(json.getString("urutan_ke"));
+                        u.setDeskripsi(json.getString("description"));
                         u.setId(json.getString("id"));
+                        u.setDireksi(json.getString("nama_direksi"));
                         u.setNo_dok(json.getString("nomor_dokumen"));
                         u.setTgl_masuk(json.getString("tgl_masuk"));
-                        u.setTipe_dok(json.getString("tipe_dok_id"));
-                        u.setNama_dok(json.getString("nama_dokumen"));
                         u.setPengirim(json.getString("pengirim"));
-                        u.setPenerima(json.getString("penerima"));
 //                        u.setPengirim(json.getString("tanggal"));
                         u.setPerihal(json.getString("perihal"));
 

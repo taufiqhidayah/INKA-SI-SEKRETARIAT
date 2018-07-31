@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static ArrayList<Data> data;
@@ -88,12 +89,13 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
                 btSave = (Button) dialog.findViewById(R.id.memSimpan);
                 btDel =(Button)dialog.findViewById(R.id.memDel);
                 final Data map = data.get(position);
-                edDok.setText(map.getNama_dok());
+
+                edTglMasuk.setText(map.getTgl_masuk());
+                edNomerMemo.setText(map.getNo_dok());
+                edT1.setText(map.getDireksi());
                 edNoUrut.setText(map.getNo_dok());
-                edTglMasuk.setText(map.tgl_masuk);
-                edNomerMemo.setText(map.getNo_reff());
-                edUnitPengirim.setText(map.penerima);
-                edT1.setText(map.pengirim);
+                edUnitPengirim.setText(map.getPengirim());
+                edDok.setText(map.getPerihal());
 
                 btSave.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -141,18 +143,14 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 HashMap<String, String> param = new HashMap<>();
-                                param.put("nomor_dokumen", edNoUrut.getText().toString());
-                                param.put("penerima", edUnitPengirim.getText().toString());
-                                param.put("perihal", edJenisDok.getText().toString());
-                                param.put("nama_dokumen", edDok.getText().toString());
-                                param.put("penerima", edDok.getText().toString());
-                                param.put("perihal", edNomerMemo.getText().toString());
-                                param.put("pengirim", edT1.getText().toString());
-                                param.put("pengirim", edT2.getText().toString());
-                                param.put("pengirim", edT3.getText().toString());
-                                param.put("pengirim", edT4.getText().toString());
-                                param.put("id_user", sesi.getIdUser());
+                                param.put("id_user",sesi.getIdUser());
+                                param.put("nomor_dokumen",map.getNo_dok());
+                                param.put("perihal", edDok.toString());
+                                param.put("pengirim", edUnitPengirim.getText().toString());
+                                param.put("urutan_ke", edNoUrut.getText().toString());
+                                param.put("dest_direksi_id",edT1.getText().toString());
                                 param.put("tipe_dok_id", "3");
+                                param.put("id",map.getId());;
 //                        param.put("deposit_jumlah",edTgl.getText().toString());
                                 return param;
 
@@ -298,22 +296,20 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
                         Toast.makeText(DetailSuratMemoActivity.this, "Data gagal di kitim", Toast.LENGTH_SHORT).show();
                     }
                 }) {
+                    Random rand = new Random();
+
+                    int  n = rand.nextInt(50) + 1;
                     @Override
 
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
-                        param.put("nomor_dokumen", edNoUrut.getText().toString()+ "/SME/"+sesi.getNama()+"2018");
-                        param.put("penerima", edUnitPengirim.getText().toString());
-                        param.put("perihal", edJenisDok.getText().toString());
-                        param.put("nama_dokumen", edDok.getText().toString());
-                        param.put("penerima", edDok.getText().toString());
-                        param.put("perihal", edNomerMemo.getText().toString());
-                        param.put("pengirim", edT1.getText().toString());
-                        param.put("pengirim", edT2.getText().toString());
-                        param.put("pengirim", edT3.getText().toString());
-                        param.put("pengirim", edT4.getText().toString());
-                        param.put("id_user", sesi.getIdUser());
-                        param.put("tipe_dok_id", "3");
+                        param.put("id_user",sesi.getIdUser());
+                        param.put("nomor_dokumen",n+"/MI/"+sesi.getNama()+"/2018");
+                        param.put("perihal", edDok.toString());
+                        param.put("pengirim", edUnitPengirim.getText().toString());
+                        param.put("urutan_ke", edNoUrut.getText().toString());
+                        param.put("dest_direksi_id",edT1.getText().toString());
+                        param.put("tipe_dok_id", "2");
 //                param.put("konfirmasi_nama", konfirmasinama.getText().toString());
 //                param.put("kon_bank", textspinner.getText().toString());
 //                param.put("kon_rekening", konfirmasirekening.getText().toString());
@@ -350,13 +346,13 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
 
                         // proses memasukkan masing2 field ke setter getter model
                         Data u = new Data();
+                        u.setUrutan(json.getString("urutan_ke"));
+                        u.setDeskripsi(json.getString("description"));
                         u.setId(json.getString("id"));
+                        u.setDireksi(json.getString("nama_direksi"));
                         u.setNo_dok(json.getString("nomor_dokumen"));
                         u.setTgl_masuk(json.getString("tgl_masuk"));
-                        u.setTipe_dok(json.getString("tipe_dok_id"));
-                        u.setNama_dok(json.getString("nama_dokumen"));
                         u.setPengirim(json.getString("pengirim"));
-                        u.setPenerima(json.getString("penerima"));
 //                        u.setPengirim(json.getString("tanggal"));
                         u.setPerihal(json.getString("perihal"));
 

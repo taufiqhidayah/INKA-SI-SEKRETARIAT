@@ -9,6 +9,7 @@ $con = mysqli_connect("localhost","root","","sekapi");
 // $database	="adapasar_admin";
 if (mysqli_connect_errno()){
 	echo "Failed Connect".mysqli_connect_errno();
+	exit();
 
 }
 // mysqli_connect($server, $username, $password) or die("Koneksi tidak ada");

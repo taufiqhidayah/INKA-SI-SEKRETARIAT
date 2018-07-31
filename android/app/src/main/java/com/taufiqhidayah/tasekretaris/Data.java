@@ -14,6 +14,26 @@ public class Data {
     String tgl_dok_reff;
     String deskripsi;
 
+    public String getDireksi() {
+        return direksi;
+    }
+
+    public void setDireksi(String direksi) {
+        this.direksi = direksi;
+    }
+
+    String direksi;
+
+    public String getUrutan() {
+        return urutan;
+    }
+
+    public void setUrutan(String urutan) {
+        this.urutan = urutan;
+    }
+
+    String urutan;
+
     public String getPerihal() {
         return perihal;
     }
