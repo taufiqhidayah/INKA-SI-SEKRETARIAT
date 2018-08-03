@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TASekretaris</string>
+    <string name="title_activity_detail_surat">Surat Internal</string>
+    <string name="title_activity_detail_surat_external">Surat External</string>
+    <string name="title_activity_detail_surat_memo">MEMO </string>
+    <string name="title_activity_profil">ProfilActivity</string>
+</resources>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/exNoUrutDokumen"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="No Urut Dokumen"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="33dp"
+            tools:layout_editor_absoluteY="15dp" />
+
+        <EditText
+            android:id="@+id/exTanggalmasukDokumen"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Tanggal Masuk Dokumen"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="34dp"
+            tools:layout_editor_absoluteY="61dp" />
+
+        <EditText
+            android:id="@+id/exNamaPengirim"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Nama Pengirim"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="106dp" />
+
+        <!--<EditText-->
+            <!--android:id="@+id/TanggalDokumen"-->
+            <!--android:layout_width="335dp"-->
+            <!--android:layout_height="42dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Tanggal Dokumen"-->
+            <!--android:inputType="textPersonName"-->
+            <!--tools:layout_editor_absoluteX="16dp"-->
+            <!--tools:layout_editor_absoluteY="152dp" />-->
+
+        <EditText
+            android:id="@+id/exNomorSurat"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Nomor Surat"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="207dp" />
+
+        <EditText
+            android:id="@+id/exPerihal"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Perihal"
+            android:inputType=""
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="260dp" />
+
+        <EditText
+            android:id="@+id/exJenisDokumen"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Jenis Dokumen"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="313dp" />
+
+        <EditText
+            android:id="@+id/exTujuanPertama"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Tujuan Pertama"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="359dp" />
+
+        <EditText
+            android:id="@+id/exTujuanKedua"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Tujuan Kedua"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="405dp" />
+
+        <EditText
+            android:id="@+id/exTujuanKetiga"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Tujuan Ketiga"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="458dp" />
+
+
+        <EditText
+            android:id="@+id/exTujuanKeempat"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:hint="Tujuan Keempat"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="517dp" />
+
+
+        <Button
+            android:id="@+id/exSimpan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Simpan"
+            tools:layout_editor_absoluteX="248dp"
+            tools:layout_editor_absoluteY="466dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/exdelete"
+            android:text="Hapus"
+            />
+    </LinearLayout>
+</ScrollView>
