@@ -67,6 +67,7 @@
             android:layout_height="42dp"
             android:ems="10"
             android:hint="Perihal"
+            android:inputType=""
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="260dp" />
 
@@ -75,8 +76,8 @@
             android:layout_width="335dp"
             android:layout_height="42dp"
             android:ems="10"
+            android:hint="Jenis Dokumen"
             android:inputType="textPersonName"
-            android:text="External"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="313dp" />
 
@@ -102,8 +103,8 @@
 
         <EditText
             android:id="@+id/exTujuanKetiga"
-            android:layout_width="247dp"
-            android:layout_height="wrap_content"
+            android:layout_width="335dp"
+            android:layout_height="42dp"
             android:ems="10"
             android:hint="Tujuan Ketiga"
             android:inputType="textPersonName"

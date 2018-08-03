@@ -50,6 +50,8 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
     EditText edNoUrut, edTglMasuk,edNamaPengirim,edTglDoc,edNoSurat,edPerihal,edJenisDok,EdT1,edT2,edT3,edT4;
     Button btSave,btDel;
     SwipeRefreshLayout mSwipeRefreshLayout;
+//1.
+    Boolean status = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,17 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
             lsSrEx.setEnabled(false);
             fab.setVisibility(View.GONE);
             fab.setOnClickListener(null);
+            //2.
+            status = false;
         }
-        getData();
+        //3.
+        if (status) {
+            getData();
+        } else if (!status) {
+            getDataAdmin();
+        }
+
+
         lsSrEx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -260,6 +271,68 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void getDataAdmin() {
+        String url = Konstant.URL + "apisek/getDataAdmin.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+                    data.clear();
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("tamu");
+                    Log.d("response ", response);
+                    for (int a = 0; a < jsonArray.length(); a++) {
+
+                        JSONObject json = jsonArray.getJSONObject(a);
+
+                        // proses memasukkan masing2 field ke setter getter model
+                        Data u = new Data();
+                        u.setUrutan(json.getString("urutan_ke"));
+                        u.setDeskripsi(json.getString("description"));
+                        u.setId(json.getString("id"));
+                        u.setDireksi(json.getString("jabatan_direksi"));
+                        u.setNo_dok(json.getString("nomor_dokumen"));
+                        u.setTgl_masuk(json.getString("tgl_masuk"));
+                        u.setPengirim(json.getString("pengirim"));
+//                        u.setPengirim(json.getString("tanggal"));
+                        u.setPerihal(json.getString("perihal"));
+
+                        data.add(u);
+                        CustemAdapterEx adapter = new CustemAdapterEx(DetailSuratExternalActivity.this, data);
+                        lsSrEx.setAdapter(adapter);
+                        mSwipeRefreshLayout.setRefreshing(false);
+//                        progressDialog.dismiss();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+               // params.put("nip", sesi.getNama());
+                params.put("tipe_dok_id", "1");
+                //   params.put("idorder", booking.getIdbook());
+                //  params.put("f_type",String.valueOf(type));
+
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
     private void addData() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.insert_ext);
@@ -325,12 +398,12 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
-
+\
 
 //                        EditText edNoUrut, edTglMasuk,edNamaPengirim,edTglDoc,edNoSurat,edPerihal,edJenisDok,EdT1,edT2,edT3,edT4;
                         param.put("id_user",sessionManager.getIdUser());
-                        param.put("nomor_dokumen",n+"/SME/"+sessionManager.getNama()+"/2018");
-                        param.put("perihal", edPerihal.toString());
+                        param.put("nomor_dokumen",edNoSurat.getText().toString());
+                        param.put("perihal", edPerihal.getText().toString());
                         param.put("pengirim", edNamaPengirim.getText().toString());
                         param.put("urutan_ke", edNoUrut.getText().toString());
                         param.put("dest_direksi_id",EdT1.getText().toString());
@@ -361,20 +434,21 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
 
 
                 try {
+                    //ii lohh data.clear
                     data.clear();
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("tamu");
-                    Log.d("response ", response);
-                    for (int a = 0; a < jsonArray.length(); a++) {
+                  JSONArray jsonArray = jsonObject.getJSONArray("tamu");
+ Log.d("response ", response);
+                 for (int a = 0; a < jsonArray.length(); a++) {
 
-                        JSONObject json = jsonArray.getJSONObject(a);
+                     JSONObject json = jsonArray.getJSONObject(a);
 
                         // proses memasukkan masing2 field ke setter getter model
                         Data u = new Data();
                         u.setUrutan(json.getString("urutan_ke"));
                         u.setDeskripsi(json.getString("description"));
                         u.setId(json.getString("id"));
-                        u.setDireksi(json.getString("nama_direksi"));
+                        u.setDireksi(json.getString("jabatan_direksi"));
                         u.setNo_dok(json.getString("nomor_dokumen"));
                         u.setTgl_masuk(json.getString("tgl_masuk"));
                         u.setPengirim(json.getString("pengirim"));
@@ -415,6 +489,10 @@ public class DetailSuratExternalActivity extends AppCompatActivity implements Sw
 
     @Override
     public void onRefresh() {
-        getData();
+        if (status) {
+            getData();
+        } else if (!status) {
+            getDataAdmin();
+        }
     }
 }

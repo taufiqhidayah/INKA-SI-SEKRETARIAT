@@ -44,6 +44,8 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
     EditText edNoUrut, edTglMasuk,edUnitPengirim,edNomerMemo,edDok,edJenisDok,edT1,edT2,edT3,edT4;
     Button btSave,btDel;
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    boolean status = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +55,32 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         lsOrder = (ListView) findViewById(R.id.lsMemo);
-        sesi = new SessionManager(this);
-        data = new ArrayList<>();
-        user = new Data();
-        getData();
+            sesi = new SessionManager(this);
+            data = new ArrayList<>();
+            user = new Data();
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        if (!sesi.getIdUser().equals("2") && !sesi.getIdUser().equals("3") && !sesi.getIdUser().equals("4") && !sesi.getIdUser().equals("5") )
-        {
+//        getData();
+        //ini fungsi untuk ngecek user admin atau bukan
+        if (!sesi.getIdUser().equals("2") && !sesi.getIdUser().equals("3") && !sesi.getIdUser().equals("4") && !sesi.getIdUser().equals("5")) {
 //        if (sesi.getNama()!= "sekt_dirut" && sesi.getNama()!="sekt_dirkeu" && sesi.getNama()!="sekt_dirkomtek" & sesi.getNama()!= "sekt_dirprod"){
             lsOrder.setOnItemClickListener(null);
             lsOrder.setEnabled(false);
             fab.setVisibility(View.GONE);
-            fab.setOnClickListener(null);
+//2. tambahin status false
+            status = false;
         }
+
+        //3. tambahin  kondisi ini
+        if (status) {
+            getData();
+        } else if (!status) {
+            //4, bikin method ini
+            getDataAdmin();
+        }
+
+
+
         lsOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -235,6 +249,68 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void getDataAdmin() {
+        String url = Konstant.URL + "apisek/getDataAdmin.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+                    data.clear();
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("tamu");
+                    Log.d("response ", response);
+                    for (int a = 0; a < jsonArray.length(); a++) {
+
+                        JSONObject json = jsonArray.getJSONObject(a);
+
+                        // proses memasukkan masing2 field ke setter getter model
+                        Data u = new Data();
+                        u.setUrutan(json.getString("urutan_ke"));
+                        u.setDeskripsi(json.getString("description"));
+                        u.setId(json.getString("id"));
+                        u.setDireksi(json.getString("jabatan_direksi"));
+                        u.setNo_dok(json.getString("nomor_dokumen"));
+                        u.setTgl_masuk(json.getString("tgl_masuk"));
+                        u.setPengirim(json.getString("pengirim"));
+//                        u.setPengirim(json.getString("tanggal"));
+                        u.setPerihal(json.getString("perihal"));
+
+                        data.add(u);
+                        CustemAdapterMemo adapter = new CustemAdapterMemo(DetailSuratMemoActivity.this, data);
+                        lsOrder.setAdapter(adapter);
+                        mSwipeRefreshLayout.setRefreshing(false);
+//                        progressDialog.dismiss();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("nip", sesi.getNama());
+                params.put("tipe_dok_id", "1");
+                //   params.put("idorder", booking.getIdbook());
+                //  params.put("f_type",String.valueOf(type));
+
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
     private void AddData() {
 
         final Dialog dialog = new Dialog(this);
@@ -304,8 +380,8 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> param = new HashMap<>();
                         param.put("id_user",sesi.getIdUser());
-                        param.put("nomor_dokumen",n+"/MI/"+sesi.getNama()+"/2018");
-                        param.put("perihal", edDok.toString());
+                        param.put("nomor_dokumen",edNomerMemo.getText().toString());
+                        param.put("perihal", edDok.getText().toString());
                         param.put("pengirim", edUnitPengirim.getText().toString());
                         param.put("urutan_ke", edNoUrut.getText().toString());
                         param.put("dest_direksi_id",edT1.getText().toString());
@@ -349,7 +425,7 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
                         u.setUrutan(json.getString("urutan_ke"));
                         u.setDeskripsi(json.getString("description"));
                         u.setId(json.getString("id"));
-                        u.setDireksi(json.getString("nama_direksi"));
+                        u.setDireksi(json.getString("jabatan_direksi"));
                         u.setNo_dok(json.getString("nomor_dokumen"));
                         u.setTgl_masuk(json.getString("tgl_masuk"));
                         u.setPengirim(json.getString("pengirim"));
@@ -391,7 +467,12 @@ public class DetailSuratMemoActivity extends AppCompatActivity implements SwipeR
     }
 
     @Override
-    public void onRefresh() {
-        getData();
+    public void onRefresh()
+    {
+        if (status) {
+            getData();
+        } else if (!status) {
+            getDataAdmin();
+        }
     }
 }

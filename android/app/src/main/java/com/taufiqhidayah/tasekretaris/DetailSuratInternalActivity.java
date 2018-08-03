@@ -43,8 +43,11 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
     Data user;
     ListView lsOrder;
     EditText edNo, edTgl, edUnit, edDok, edJenDok, edTujuan1, edTujuan2, edTujuan3, edTujuan4;
-    Button btSave,btDel;
+    Button btSave, btDel;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    //1. deklarasi variable satatus
+
+    Boolean status =true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +61,27 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
         user = new Data();
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        getData();
-        if (!sesi.getIdUser().equals("2") && !sesi.getIdUser().equals("3") && !sesi.getIdUser().equals("4") && !sesi.getIdUser().equals("5") )
-        {
+//        getData();
+        //ini fungsi untuk ngecek user admin atau bukan
+        if (!sesi.getIdUser().equals("2") && !sesi.getIdUser().equals("3") && !sesi.getIdUser().equals("4") && !sesi.getIdUser().equals("5")) {
 //        if (sesi.getNama()!= "sekt_dirut" && sesi.getNama()!="sekt_dirkeu" && sesi.getNama()!="sekt_dirkomtek" & sesi.getNama()!= "sekt_dirprod"){
             lsOrder.setOnItemClickListener(null);
             lsOrder.setEnabled(false);
             fab.setVisibility(View.GONE);
-            fab.setOnClickListener(null);
+//2. tambahin status false
+            status = false;
         }
+
+        //3. tambahin  kondisi ini
+        if (status) {
+            getData();
+        } else if (!status) {
+            //4, bikin method ini
+            getDataAdmin();
+        }
+
+
+
         lsOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +98,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                 edTujuan3 = (EditText) dialog.findViewById(R.id.TujuanKetiga);
                 edTujuan4 = (EditText) dialog.findViewById(R.id.TujuanKeempat);
                 btSave = (Button) dialog.findViewById(R.id.Simpan);
-                btDel =(Button)dialog.findViewById(R.id.btdelete);
+                btDel = (Button) dialog.findViewById(R.id.btdelete);
                 final Data map = data.get(position);
                 Toast.makeText(DetailSuratInternalActivity.this, map.getId(), Toast.LENGTH_SHORT).show();
                 edDok.setText(map.getPerihal());
@@ -97,7 +112,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                     @Override
                     public void onClick(View v) {
 
-                        String Url = Konstant.URL +"apisek/deleteData.php";
+                        String Url = Konstant.URL + "apisek/deleteData.php";
                         final ProgressDialog progressDialog = new ProgressDialog(DetailSuratInternalActivity.this);
                         progressDialog.setMessage("loading..");
                         progressDialog.show();
@@ -140,7 +155,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 HashMap<String, String> param = new HashMap<>();
-                                param.put("id",map.getId());
+                                param.put("id", map.getId());
 //                        param.put("deposit_jumlah",edTgl.getText().toString());
                                 return param;
 
@@ -154,7 +169,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                 btSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String Url =  Konstant.URL +"apisek/updateData.php";
+                        String Url = Konstant.URL + "apisek/updateData.php";
                         final ProgressDialog progressDialog = new ProgressDialog(DetailSuratInternalActivity.this);
                         progressDialog.setMessage("loading..");
                         progressDialog.show();
@@ -197,15 +212,14 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 HashMap<String, String> param = new HashMap<>();
-
-//                                param.put("urutan_ke", edNo.getText().toString());
+                                param.put("urutan_ke", edNo.getText().toString());
                                 param.put("nomor_dokumen", edNo.getText().toString());
                                 param.put("pengirim", edUnit.getText().toString());
                                 param.put("perihal", edDok.getText().toString());
-                                param.put("dest_direksi_id",edTujuan1.getText().toString());
-                                param.put("id_user",sesi.getIdUser());
-                                param.put("tipe_dok_id","1");
-                                param.put("id",map.getId());
+                                param.put("dest_direksi_id", edTujuan1.getText().toString());
+                                param.put("id_user", sesi.getIdUser());
+                                param.put("tipe_dok_id", "1");
+                                param.put("id", map.getId());
 //                        param.put("deposit_jumlah",edTgl.getText().toString());
                                 return param;
 
@@ -216,7 +230,6 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
 
                     }
                 });
-
 
 
                 dialog.show();
@@ -230,6 +243,69 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+//5. copy paste aja ini
+
+    private void getDataAdmin() {
+        String url = Konstant.URL + "apisek/getDataAdmin.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+                    data.clear();
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("tamu");
+                    Log.d("response ", response);
+                    for (int a = 0; a < jsonArray.length(); a++) {
+
+                        JSONObject json = jsonArray.getJSONObject(a);
+
+                        // proses memasukkan masing2 field ke setter getter model
+                        Data u = new Data();
+                        u.setUrutan(json.getString("urutan_ke"));
+                        u.setDeskripsi(json.getString("description"));
+                        u.setId(json.getString("id"));
+                        u.setDireksi(json.getString("jabatan_direksi"));
+                        u.setNo_dok(json.getString("nomor_dokumen"));
+                        u.setTgl_masuk(json.getString("tgl_masuk"));
+                        u.setPengirim(json.getString("pengirim"));
+//                        u.setPengirim(json.getString("tanggal"));
+                        u.setPerihal(json.getString("perihal"));
+
+                        data.add(u);
+                        CustemAdapter adapter = new CustemAdapter(DetailSuratInternalActivity.this, data);
+                        lsOrder.setAdapter(adapter);
+                        mSwipeRefreshLayout.setRefreshing(false);
+//                        progressDialog.dismiss();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("nip", sesi.getNama());
+                params.put("tipe_dok_id", "1");
+                //   params.put("idorder", booking.getIdbook());
+                //  params.put("f_type",String.valueOf(type));
+
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
     }
 
     private void tampilDialog() {
@@ -250,7 +326,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Url =  Konstant.URL +"apisek/insertData.php";
+                String Url = Konstant.URL + "apisek/insertData.php";
                 final ProgressDialog progressDialog = new ProgressDialog(DetailSuratInternalActivity.this);
                 progressDialog.setMessage("loading..");
                 progressDialog.show();
@@ -292,17 +368,18 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                 }) {
                     Random rand = new Random();
 
-                    int  n = rand.nextInt(50) + 1;
+                    int n = rand.nextInt(50) + 1;
+
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
 
                         HashMap<String, String> param = new HashMap<>();
-                        param.put("id_user",sesi.getIdUser());
-                        param.put("nomor_dokumen",n+"/SMI/"+sesi.getNama()+"/2018");
-                        param.put("perihal", edDok.getText().toString());
+                        param.put("id_user", sesi.getIdUser());
+                        param.put("nomor_dokumen", n + "/SMI/" + sesi.getNama() + "/2018");
+                            param.put("perihal", edDok.getText().toString());
                         param.put("pengirim", edUnit.getText().toString());
                         param.put("urutan_ke", edNo.getText().toString());
-                        param.put("dest_direksi_id",edTujuan1.getText().toString());
+                        param.put("dest_direksi_id", edTujuan1.getText().toString());
 //                param.put("konfirmasi_nama", konfirmasinama.getText().toString());
 //                param.put("kon_bank", textspinner.getText().toString());
 //                param.put("kon_rekening", konfirmasirekening.getText().toString());
@@ -326,7 +403,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
     }
 
     private void getData() {
-        String url =  Konstant.URL +"apisek/getData.php";
+        String url = Konstant.URL + "apisek/getData.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -343,11 +420,13 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
                         JSONObject json = jsonArray.getJSONObject(a);
 
                         // proses memasukkan masing2 field ke setter getter model
+
+                        // proses memasukkan masing2 field ke setter getter model
                         Data u = new Data();
                         u.setUrutan(json.getString("urutan_ke"));
                         u.setDeskripsi(json.getString("description"));
                         u.setId(json.getString("id"));
-                        u.setDireksi(json.getString("nama_direksi"));
+                        u.setDireksi(json.getString("jabatan_direksi"));
                         u.setNo_dok(json.getString("nomor_dokumen"));
                         u.setTgl_masuk(json.getString("tgl_masuk"));
                         u.setPengirim(json.getString("pengirim"));
@@ -375,7 +454,7 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("nip", sesi.getNama());
-                params.put("tipe_dok_id","1");
+                params.put("tipe_dok_id", "1");
                 //   params.put("idorder", booking.getIdbook());
                 //  params.put("f_type",String.valueOf(type));
 
@@ -390,8 +469,13 @@ public class DetailSuratInternalActivity extends AppCompatActivity implements Sw
     public void onViewClicked() {
     }
 
+    //
     @Override
     public void onRefresh() {
-        getData();
+        if (status) {
+            getData();
+        } else if (!status) {
+            getDataAdmin();
+        }
     }
 }

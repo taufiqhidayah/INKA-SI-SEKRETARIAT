@@ -17,13 +17,15 @@ $nomor_dokumen=$_POST["nomor_dokumen"];
 	$perihal =$_POST["perihal"];
 	$tipe_dok_id =$_POST["tipe_dok_id"];
 	$pengirim =$_POST["pengirim"];
-	$created_at=date('Y-m-d H:i:s');
+	$created_at=$_POST['tgl_masuk'];
+
 
 	// $sql = mysqli_query($con,"UPDATE t_dokumens SET nomor_dokumen='$nomor_dokumen',nama_dokumen='$nama_dokumen',perihal='$perihal',pengirim='$pengirim' WHERE id='$id'");
 
 
 $query =mysqli_query($con, "UPDATE t_dokumens SET
- 
+
+ t_dokumens.tgl_masuk='$created_at',
   t_dokumens.tipe_dok_id='$tipe_dok_id',
   t_dokumens.nomor_dokumen='$nomor_dokumen',
 t_dokumens.perihal='$perihal',

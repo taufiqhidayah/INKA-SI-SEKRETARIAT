@@ -3,30 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ProfilActivity"
     tools:showIn="@layout/activity_profil">
+
     <ImageView
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/inkalogo"/>
+        android:layout_gravity="center"
+        android:background="@drawable/inkalogo" />
+
     <TextView
-        android:textColor="#000000"
         android:id="@+id/tvNam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:text="ds" />
+        android:text="ds"
+        android:textColor="#000000" />
+
     <Button
 
         android:id="@+id/btlog"
-        android:textColor="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
         android:background="#de5608"
-        />
+        android:text="Logout"
+        android:textColor="#fff" />
 </LinearLayout>

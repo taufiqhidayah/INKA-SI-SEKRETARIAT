@@ -56,7 +56,6 @@
             android:layout_width="321dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Dokumen"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="218dp" />
@@ -116,7 +115,7 @@
             android:id="@+id/memSimpan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Simpan"
+            android:text="Simpan"
             tools:layout_editor_absoluteX="279dp"
             tools:layout_editor_absoluteY="502dp" />
 
@@ -124,7 +123,7 @@
             android:id="@+id/memDel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Hapus"
+            android:text="Hapus"
             tools:layout_editor_absoluteX="279dp"
             tools:layout_editor_absoluteY="502dp" />
     </LinearLayout>

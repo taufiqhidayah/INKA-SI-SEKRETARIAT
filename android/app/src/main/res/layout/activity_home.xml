@@ -48,8 +48,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:text="Selamat belajar Pengolahan Citra Digital"
-                android:textAlignment="center" />
+                android:text="INKA SEKRETARIAT"
+                android:textAlignment="center"
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -91,7 +92,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
-                            android:text="SURAT INTERNAL"/>
+                            android:text="Surat Internal"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <android.support.v7.widget.CardView
@@ -119,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
-                            android:text="MEMO"/>
+                            android:text="Memo Internal"/>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>

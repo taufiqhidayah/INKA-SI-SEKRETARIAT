@@ -1,7 +1,6 @@
 <?php
 include 'konek.php';
 
-$id 			= $_POST['nip'];
 $tdk 	= $_POST['tipe_dok_id'];
 // $sql = mysqli_query($con,"SELECT orders.*,
 // 	markets.name as namapasar
@@ -59,7 +58,7 @@ INNER JOIN t_tujuan_dokumens ON t_tujuan_dokumens.dokumen_id = t_dokumens.id
 INNER JOIN m_direksis ON t_tujuan_dokumens.dest_direksi_id = m_direksis.id
 INNER JOIN m_tipe_dokumens ON t_dokumens.tipe_dok_id = m_tipe_dokumens.id
 INNER JOIN m_status_dokumens ON t_dokumens.is_closed = m_status_dokumens.id
-WHERE users.nip='$id' && t_dokumens.tipe_dok_id='$tdk'")
+WHERE  t_dokumens.tipe_dok_id='$tdk'")
  or die(mysqli_errno());
 $response = array();
 if(mysqli_num_rows($sql) > 0)
@@ -74,7 +73,7 @@ if(mysqli_num_rows($sql) > 0)
 		// $user["nomor_referensi"]		= $row["nama_dokumen"];
 		// $user["nama_dokumen"]			= $row["nama_dokumen"];
 		$user["perihal"]				= $row["perihal"];
-		$user["urutan_ke"]				= $row["urutan_ke"];
+		$user["urutan_ke"]		= $row["urutan_ke"];
 		// $user["tgl_keluar"]				= $row["tgl_keluar"];
 		// $user["nip"]					= $row["nip"];
 		$user["pengirim"]				= $row["pengirim"];
