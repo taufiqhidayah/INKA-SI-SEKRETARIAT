@@ -35,6 +35,7 @@ t_dokumens.perihal,
 
   )VALUES('$id','3','1','$id_user','$nomor_dokumen','$created_at','$perihal','$pengirim')");
 
+
 $query =mysqli_query($con, "INSERT INTO t_tujuan_dokumens(	
 t_tujuan_dokumens.dokumen_id,
 t_tujuan_dokumens.urutan_ke,
